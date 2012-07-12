@@ -7,10 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0C96C0A215ADC09100B5459E /* BaseApplication.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0C96C0A015ADC09100B5459E /* BaseApplication.cpp */; };
+		0C96C0A315ADC09100B5459E /* BaseApplication.h in Headers */ = {isa = PBXBuildFile; fileRef = 0C96C0A115ADC09100B5459E /* BaseApplication.h */; };
 		0CDD11C715AD9ADC00375C44 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CDD11C615AD9ADC00375C44 /* Foundation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0C96C0A015ADC09100B5459E /* BaseApplication.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BaseApplication.cpp; sourceTree = "<group>"; };
+		0C96C0A115ADC09100B5459E /* BaseApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseApplication.h; sourceTree = "<group>"; };
 		0CDD11C315AD9ADC00375C44 /* libOgreAssistKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libOgreAssistKit.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		0CDD11C615AD9ADC00375C44 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		0CDD11CA15AD9ADC00375C44 /* OgreAssistKit-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OgreAssistKit-Prefix.pch"; sourceTree = "<group>"; };
@@ -56,6 +60,8 @@
 		0CDD11C815AD9ADC00375C44 /* OgreAssistKit */ = {
 			isa = PBXGroup;
 			children = (
+				0C96C0A015ADC09100B5459E /* BaseApplication.cpp */,
+				0C96C0A115ADC09100B5459E /* BaseApplication.h */,
 				0CDD11C915AD9ADC00375C44 /* Supporting Files */,
 			);
 			path = OgreAssistKit;
@@ -76,6 +82,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0C96C0A315ADC09100B5459E /* BaseApplication.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -129,6 +136,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0C96C0A215ADC09100B5459E /* BaseApplication.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -181,6 +189,15 @@
 				DSTROOT = /tmp/OgreAssistKit.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "OgreAssistKit/OgreAssistKit-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					../../Ogre_iOS/SDK_1.8.0/include,
+					../../Ogre_iOS/SDK_1.8.0/include/OIS,
+					../../Ogre_iOS/SDK_1.8.0/include/OGRE,
+					../../Ogre_iOS/SDK_1.8.0/include/OGRE/iOS,
+					../../Ogre_iOS/SDK_1.8.0/include/OGRE/RenderSystems/GLES,
+					../../Ogre_iOS/SDK_1.8.0/Samples/Common/include,
+					../../Ogre_iOS/SDK_1.8.0/include/boost,
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -193,6 +210,15 @@
 				DSTROOT = /tmp/OgreAssistKit.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "OgreAssistKit/OgreAssistKit-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					../../Ogre_iOS/SDK_1.8.0/include,
+					../../Ogre_iOS/SDK_1.8.0/include/OIS,
+					../../Ogre_iOS/SDK_1.8.0/include/OGRE,
+					../../Ogre_iOS/SDK_1.8.0/include/OGRE/iOS,
+					../../Ogre_iOS/SDK_1.8.0/include/OGRE/RenderSystems/GLES,
+					../../Ogre_iOS/SDK_1.8.0/Samples/Common/include,
+					../../Ogre_iOS/SDK_1.8.0/include/boost,
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

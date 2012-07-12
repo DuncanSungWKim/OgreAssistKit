@@ -17,6 +17,10 @@ This source file is part of the
 #ifndef __BaseApplication_h_
 #define __BaseApplication_h_
 
+#if (OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS) || (OGRE_PLATFORM == OGRE_PLATFORM_ANDROID)
+#define OGRE_STATIC_GLES 1
+#endif
+
 #include <OgreCamera.h>
 #include <OgreEntity.h>
 #include <OgreLogManager.h>
@@ -25,31 +29,48 @@ This source file is part of the
 #include <OgreSceneManager.h>
 #include <OgreRenderWindow.h>
 #include <OgreConfigFile.h>
+#if (OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS) || (OGRE_PLATFORM == OGRE_PLATFORM_ANDROID)
+#include <OgreStaticPluginLoader.h>
+#endif
 
 #include <OISEvents.h>
 #include <OISInputManager.h>
 #include <OISKeyboard.h>
+#if (OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS) || (OGRE_PLATFORM == OGRE_PLATFORM_ANDROID)
+#include <OISMultiTouch.h>
+#else
 #include <OISMouse.h>
+#endif
 
 #include <SdkTrays.h>
 #include <SdkCameraMan.h>
+#if (OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS)
+#include <macUtils.h>
+#endif
 
-class BaseApplication : public Ogre::FrameListener, public Ogre::WindowEventListener, public OIS::KeyListener, public OIS::MouseListener, OgreBites::SdkTrayListener
+class BaseApplication : public Ogre::FrameListener, public Ogre::WindowEventListener, public OIS::KeyListener,
+#if (OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS) || (OGRE_PLATFORM == OGRE_PLATFORM_ANDROID)
+    public OIS::MultiTouchListener,
+#else
+    public OIS::MouseListener,
+#endif
+    OgreBites::SdkTrayListener
 {
 public:
     BaseApplication(void);
     virtual ~BaseApplication(void);
 
     virtual void go(void);
-
-protected:
     virtual bool setup();
+    virtual void destroyScene(void);
+    Ogre::Root* get_Root() const { return mRoot ; }
+    
+protected:
     virtual bool configure(void);
     virtual void chooseSceneManager(void);
     virtual void createCamera(void);
     virtual void createFrameListener(void);
     virtual void createScene(void) = 0; // Override me!
-    virtual void destroyScene(void);
     virtual void createViewports(void);
     virtual void setupResources(void);
     virtual void createResourceListener(void);
@@ -61,10 +82,20 @@ protected:
     // OIS::KeyListener
     virtual bool keyPressed( const OIS::KeyEvent &arg );
     virtual bool keyReleased( const OIS::KeyEvent &arg );
+    
+#if (OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS) || (OGRE_PLATFORM == OGRE_PLATFORM_ANDROID)
+    // OIS::MultiTouchEvent
+    virtual bool touchMoved( const OIS::MultiTouchEvent &arg );
+    virtual bool touchPressed( const OIS::MultiTouchEvent &arg );
+    virtual bool touchReleased( const OIS::MultiTouchEvent &arg );
+    virtual bool touchCancelled( const OIS::MultiTouchEvent& evt )
+    { return true ; }
+#else
     // OIS::MouseListener
     virtual bool mouseMoved( const OIS::MouseEvent &arg );
     virtual bool mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
     virtual bool mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
+#endif
 
     // Ogre::WindowEventListener
     //Adjust mouse clipping area
@@ -88,7 +119,12 @@ protected:
 
     //OIS Input devices
     OIS::InputManager* mInputManager;
+#if (OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS) || (OGRE_PLATFORM == OGRE_PLATFORM_ANDROID)
+    OIS::MultiTouch* mMouse;
+    Ogre::StaticPluginLoader m_StaticPluginLoader ;
+#else
     OIS::Mouse*    mMouse;
+#endif
     OIS::Keyboard* mKeyboard;
 };
 

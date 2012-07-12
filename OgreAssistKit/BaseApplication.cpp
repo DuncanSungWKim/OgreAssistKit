@@ -16,6 +16,15 @@ This source file is part of the
 */
 #include "BaseApplication.h"
 
+
+#if (OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS) || (OGRE_PLATFORM == OGRE_PLATFORM_ANDROID)
+typedef OIS::MultiTouch PointingDevice ;
+#define PointingDeviceType OIS::OISMultiTouch
+#else
+typedef OIS::Mouse PointingDevice ;
+#define PointingDeviceType OIS::OISMouse
+#endif
+
 //-------------------------------------------------------------------------------------
 BaseApplication::BaseApplication(void)
     : mRoot(0),
@@ -45,6 +54,9 @@ BaseApplication::~BaseApplication(void)
     Ogre::WindowEventUtilities::removeWindowEventListener(mWindow, this);
     windowClosed(mWindow);
     delete mRoot;
+#if (OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS) || (OGRE_PLATFORM == OGRE_PLATFORM_ANDROID)
+    m_StaticPluginLoader.unload();
+#endif
 }
 
 //-------------------------------------------------------------------------------------
@@ -100,11 +112,17 @@ void BaseApplication::createFrameListener(void)
 
     mInputManager = OIS::InputManager::createInputSystem( pl );
 
+#if (OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS) || (OGRE_PLATFORM == OGRE_PLATFORM_ANDROID)
+#else
     mKeyboard = static_cast<OIS::Keyboard*>(mInputManager->createInputObject( OIS::OISKeyboard, true ));
-    mMouse = static_cast<OIS::Mouse*>(mInputManager->createInputObject( OIS::OISMouse, true ));
+#endif
+    mMouse = static_cast<PointingDevice*>(mInputManager->createInputObject( PointingDeviceType, true ));
 
     mMouse->setEventCallback(this);
+#if (OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS) || (OGRE_PLATFORM == OGRE_PLATFORM_ANDROID)
+#else
     mKeyboard->setEventCallback(this);
+#endif
 
     //Set initial mouse clipping size
     windowResized(mWindow);
@@ -163,6 +181,10 @@ void BaseApplication::setupResources(void)
     // Go through all sections & settings in the file
     Ogre::ConfigFile::SectionIterator seci = cf.getSectionIterator();
 
+#if (OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS) || (OGRE_PLATFORM == OGRE_PLATFORM_ANDROID)
+    Ogre::String bunPath = Ogre::macBundlePath() ;
+    bunPath.push_back( '/' ) ;
+#endif
     Ogre::String secName, typeName, archName;
     while (seci.hasMoreElements())
     {
@@ -172,7 +194,11 @@ void BaseApplication::setupResources(void)
         for (i = settings->begin(); i != settings->end(); ++i)
         {
             typeName = i->first;
+#if (OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS) || (OGRE_PLATFORM == OGRE_PLATFORM_ANDROID)
+            archName = bunPath + i->second;
+#else
             archName = i->second;
+#endif
             Ogre::ResourceGroupManager::getSingleton().addResourceLocation(
                 archName, typeName, secName);
         }
@@ -191,14 +217,6 @@ void BaseApplication::loadResources(void)
 //-------------------------------------------------------------------------------------
 void BaseApplication::go(void)
 {
-#ifdef _DEBUG
-    mResourcesCfg = "resources_d.cfg";
-    mPluginsCfg = "plugins_d.cfg";
-#else
-    mResourcesCfg = "resources.cfg";
-    mPluginsCfg = "plugins.cfg";
-#endif
-
     if (!setup())
         return;
 
@@ -210,7 +228,22 @@ void BaseApplication::go(void)
 //-------------------------------------------------------------------------------------
 bool BaseApplication::setup(void)
 {
+#if (OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS) || (OGRE_PLATFORM == OGRE_PLATFORM_ANDROID)
+    mResourcesCfg = Ogre::macBundlePath() + "/resources.cfg";
+    mPluginsCfg = "plugins.cfg";
+#else
+#ifdef _DEBUG
+    mResourcesCfg = "resources_d.cfg";
+    mPluginsCfg = "plugins_d.cfg";
+#else
+    mResourcesCfg = "resources.cfg";
+    mPluginsCfg = "plugins.cfg";
+#endif
+#endif    
     mRoot = new Ogre::Root(mPluginsCfg);
+#if (OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS) || (OGRE_PLATFORM == OGRE_PLATFORM_ANDROID)
+    m_StaticPluginLoader.load() ;
+#endif
 
     setupResources();
 
@@ -246,7 +279,10 @@ bool BaseApplication::frameRenderingQueued(const Ogre::FrameEvent& evt)
         return false;
 
     //Need to capture/update each device
+#if (OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS) || (OGRE_PLATFORM == OGRE_PLATFORM_ANDROID)
+#else
     mKeyboard->capture();
+#endif
     mMouse->capture();
 
     mTrayMgr->frameRenderingQueued(evt);
@@ -369,30 +405,62 @@ bool BaseApplication::keyReleased( const OIS::KeyEvent &arg )
     return true;
 }
 
+#if (OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS) || (OGRE_PLATFORM == OGRE_PLATFORM_ANDROID)
+bool BaseApplication::touchMoved( const OIS::MultiTouchEvent &arg )
+#else
 bool BaseApplication::mouseMoved( const OIS::MouseEvent &arg )
+#endif
 {
     if (mTrayMgr->injectMouseMove(arg)) return true;
     mCameraMan->injectMouseMove(arg);
     return true;
 }
 
+#if (OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS) || (OGRE_PLATFORM == OGRE_PLATFORM_ANDROID)
+bool BaseApplication::touchPressed( const OIS::MultiTouchEvent &arg )
+#else
 bool BaseApplication::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
+#endif
 {
-    if (mTrayMgr->injectMouseDown(arg, id)) return true;
+#if (OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS) || (OGRE_PLATFORM == OGRE_PLATFORM_ANDROID)
+    if (mTrayMgr->injectMouseDown(arg))
+#else
+    if (mTrayMgr->injectMouseDown(arg, id))
+#endif
+        return true;
+#if (OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS) || (OGRE_PLATFORM == OGRE_PLATFORM_ANDROID)
+    mCameraMan->injectMouseDown(arg);
+#else
     mCameraMan->injectMouseDown(arg, id);
+#endif
     return true;
 }
 
+#if (OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS) || (OGRE_PLATFORM == OGRE_PLATFORM_ANDROID)
+bool BaseApplication::touchReleased( const OIS::MultiTouchEvent &arg )
+#else
 bool BaseApplication::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
+#endif
 {
-    if (mTrayMgr->injectMouseUp(arg, id)) return true;
+#if (OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS) || (OGRE_PLATFORM == OGRE_PLATFORM_ANDROID)
+    if (mTrayMgr->injectMouseUp(arg))
+#else
+    if (mTrayMgr->injectMouseUp(arg, id))
+#endif
+        return true;
+#if (OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS) || (OGRE_PLATFORM == OGRE_PLATFORM_ANDROID)
+    mCameraMan->injectMouseUp(arg);
+#else
     mCameraMan->injectMouseUp(arg, id);
+#endif
     return true;
 }
 
 //Adjust mouse clipping area
 void BaseApplication::windowResized(Ogre::RenderWindow* rw)
 {
+#if (OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS) || (OGRE_PLATFORM == OGRE_PLATFORM_ANDROID)
+#else
     unsigned int width, height, depth;
     int left, top;
     rw->getMetrics(width, height, depth, left, top);
@@ -400,6 +468,7 @@ void BaseApplication::windowResized(Ogre::RenderWindow* rw)
     const OIS::MouseState &ms = mMouse->getMouseState();
     ms.width = width;
     ms.height = height;
+#endif
 }
 
 //Unattach OIS before window shutdown (very important under Linux)
@@ -411,7 +480,10 @@ void BaseApplication::windowClosed(Ogre::RenderWindow* rw)
         if( mInputManager )
         {
             mInputManager->destroyInputObject( mMouse );
+#if (OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS) || (OGRE_PLATFORM == OGRE_PLATFORM_ANDROID)
+#else
             mInputManager->destroyInputObject( mKeyboard );
+#endif
 
             OIS::InputManager::destroyInputSystem(mInputManager);
             mInputManager = 0;
