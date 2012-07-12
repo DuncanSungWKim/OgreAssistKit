@@ -407,54 +407,50 @@ bool BaseApplication::keyReleased( const OIS::KeyEvent &arg )
 
 #if (OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS) || (OGRE_PLATFORM == OGRE_PLATFORM_ANDROID)
 bool BaseApplication::touchMoved( const OIS::MultiTouchEvent &arg )
-#else
-bool BaseApplication::mouseMoved( const OIS::MouseEvent &arg )
-#endif
 {
     if (mTrayMgr->injectMouseMove(arg)) return true;
     mCameraMan->injectMouseMove(arg);
     return true;
 }
 
-#if (OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS) || (OGRE_PLATFORM == OGRE_PLATFORM_ANDROID)
 bool BaseApplication::touchPressed( const OIS::MultiTouchEvent &arg )
-#else
-bool BaseApplication::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
-#endif
 {
-#if (OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS) || (OGRE_PLATFORM == OGRE_PLATFORM_ANDROID)
-    if (mTrayMgr->injectMouseDown(arg))
-#else
-    if (mTrayMgr->injectMouseDown(arg, id))
-#endif
-        return true;
-#if (OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS) || (OGRE_PLATFORM == OGRE_PLATFORM_ANDROID)
+    if (mTrayMgr->injectMouseDown(arg)) return true;
     mCameraMan->injectMouseDown(arg);
-#else
-    mCameraMan->injectMouseDown(arg, id);
-#endif
     return true;
 }
 
-#if (OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS) || (OGRE_PLATFORM == OGRE_PLATFORM_ANDROID)
 bool BaseApplication::touchReleased( const OIS::MultiTouchEvent &arg )
-#else
-bool BaseApplication::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
-#endif
 {
-#if (OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS) || (OGRE_PLATFORM == OGRE_PLATFORM_ANDROID)
-    if (mTrayMgr->injectMouseUp(arg))
-#else
-    if (mTrayMgr->injectMouseUp(arg, id))
-#endif
-        return true;
-#if (OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS) || (OGRE_PLATFORM == OGRE_PLATFORM_ANDROID)
+    if (mTrayMgr->injectMouseUp(arg)) return true;
     mCameraMan->injectMouseUp(arg);
-#else
-    mCameraMan->injectMouseUp(arg, id);
-#endif
     return true;
 }
+
+#else
+
+bool BaseApplication::mouseMoved( const OIS::MouseEvent &arg )
+{
+    if (mTrayMgr->injectMouseMove(arg)) return true;
+    mCameraMan->injectMouseMove(arg);
+    return true;
+}
+
+bool BaseApplication::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
+{
+    if (mTrayMgr->injectMouseDown(arg, id)) return true;
+    mCameraMan->injectMouseDown(arg, id);
+    return true;
+}
+
+bool BaseApplication::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
+{
+    if (mTrayMgr->injectMouseUp(arg, id)) return true;
+    mCameraMan->injectMouseUp(arg, id);
+    return true;
+}
+#endif
+
 
 //Adjust mouse clipping area
 void BaseApplication::windowResized(Ogre::RenderWindow* rw)
