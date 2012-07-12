@@ -97,6 +97,9 @@ void BaseApplication::createCamera(void)
     mCamera->setNearClipDistance(5);
 
     mCameraMan = new OgreBites::SdkCameraMan(mCamera);   // create a default camera controller
+#if (OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS) || (OGRE_PLATFORM == OGRE_PLATFORM_ANDROID)
+    mCameraMan->setStyle( OgreBites::CS_ORBIT ) ;
+#endif
 }
 //-------------------------------------------------------------------------------------
 void BaseApplication::createFrameListener(void)
