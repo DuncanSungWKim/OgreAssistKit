@@ -7,12 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0C44A08215B0115C00445E47 /* Util.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0C44A08115B0115C00445E47 /* Util.mm */; };
 		0C96C0A215ADC09100B5459E /* BaseApplication.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0C96C0A015ADC09100B5459E /* BaseApplication.cpp */; };
 		0C96C0A315ADC09100B5459E /* BaseApplication.h in Headers */ = {isa = PBXBuildFile; fileRef = 0C96C0A115ADC09100B5459E /* BaseApplication.h */; };
 		0CDD11C715AD9ADC00375C44 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CDD11C615AD9ADC00375C44 /* Foundation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0C31668415AFE5D000876B13 /* Util.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Util.h; sourceTree = "<group>"; };
+		0C44A08115B0115C00445E47 /* Util.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Util.mm; sourceTree = "<group>"; };
 		0C96C0A015ADC09100B5459E /* BaseApplication.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BaseApplication.cpp; sourceTree = "<group>"; };
 		0C96C0A115ADC09100B5459E /* BaseApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseApplication.h; sourceTree = "<group>"; };
 		0CDD11C315AD9ADC00375C44 /* libOgreAssistKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libOgreAssistKit.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -62,6 +65,8 @@
 			children = (
 				0C96C0A015ADC09100B5459E /* BaseApplication.cpp */,
 				0C96C0A115ADC09100B5459E /* BaseApplication.h */,
+				0C31668415AFE5D000876B13 /* Util.h */,
+				0C44A08115B0115C00445E47 /* Util.mm */,
 				0CDD11C915AD9ADC00375C44 /* Supporting Files */,
 			);
 			path = OgreAssistKit;
@@ -137,6 +142,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0C96C0A215ADC09100B5459E /* BaseApplication.cpp in Sources */,
+				0C44A08215B0115C00445E47 /* Util.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
