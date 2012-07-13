@@ -26,7 +26,7 @@ typedef OIS::Mouse PointingDevice ;
 #endif
 
 //-------------------------------------------------------------------------------------
-BaseApplication::BaseApplication(void)
+BaseApplication::BaseApplication( bool a_enableOIS )
     : mRoot(0),
     mCamera(0),
     mSceneMgr(0),
@@ -39,6 +39,7 @@ BaseApplication::BaseApplication(void)
     mCursorWasVisible(false),
     mShutDown(false),
     mInputManager(0),
+    m_enableOIS(a_enableOIS),
     mMouse(0),
     mKeyboard(0)
 {
@@ -104,28 +105,31 @@ void BaseApplication::createCamera(void)
 //-------------------------------------------------------------------------------------
 void BaseApplication::createFrameListener(void)
 {
-    Ogre::LogManager::getSingletonPtr()->logMessage("*** Initializing OIS ***");
-    OIS::ParamList pl;
-    size_t windowHnd = 0;
-    std::ostringstream windowHndStr;
+    if( m_enableOIS )
+    {
+        Ogre::LogManager::getSingletonPtr()->logMessage("*** Initializing OIS ***");
+        OIS::ParamList pl;
+        size_t windowHnd = 0;
+        std::ostringstream windowHndStr;
 
-    mWindow->getCustomAttribute("WINDOW", &windowHnd);
-    windowHndStr << windowHnd;
-    pl.insert(std::make_pair(std::string("WINDOW"), windowHndStr.str()));
+        mWindow->getCustomAttribute("WINDOW", &windowHnd);
+        windowHndStr << windowHnd;
+        pl.insert(std::make_pair(std::string("WINDOW"), windowHndStr.str()));
 
-    mInputManager = OIS::InputManager::createInputSystem( pl );
+        mInputManager = OIS::InputManager::createInputSystem( pl );
 
 #if (OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS) || (OGRE_PLATFORM == OGRE_PLATFORM_ANDROID)
 #else
-    mKeyboard = static_cast<OIS::Keyboard*>(mInputManager->createInputObject( OIS::OISKeyboard, true ));
+        mKeyboard = static_cast<OIS::Keyboard*>(mInputManager->createInputObject( OIS::OISKeyboard, true ));
 #endif
-    mMouse = static_cast<PointingDevice*>(mInputManager->createInputObject( PointingDeviceType, true ));
+        mMouse = static_cast<PointingDevice*>(mInputManager->createInputObject( PointingDeviceType, true ));
 
-    mMouse->setEventCallback(this);
+        mMouse->setEventCallback(this);
 #if (OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS) || (OGRE_PLATFORM == OGRE_PLATFORM_ANDROID)
 #else
-    mKeyboard->setEventCallback(this);
+        mKeyboard->setEventCallback(this);
 #endif
+    }
 
     //Set initial mouse clipping size
     windowResized(mWindow);
@@ -281,12 +285,15 @@ bool BaseApplication::frameRenderingQueued(const Ogre::FrameEvent& evt)
     if(mShutDown)
         return false;
 
+    if( m_enableOIS )
+    {
     //Need to capture/update each device
 #if (OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS) || (OGRE_PLATFORM == OGRE_PLATFORM_ANDROID)
 #else
-    mKeyboard->capture();
+        mKeyboard->capture();
 #endif
-    mMouse->capture();
+        mMouse->capture();
+    }
 
     mTrayMgr->frameRenderingQueued(evt);
 

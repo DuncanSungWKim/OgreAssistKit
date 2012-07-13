@@ -57,7 +57,7 @@ class BaseApplication : public Ogre::FrameListener, public Ogre::WindowEventList
     OgreBites::SdkTrayListener
 {
 public:
-    BaseApplication(void);
+    BaseApplication( bool a_enableOIS = true ) ;
     virtual ~BaseApplication(void);
 
     virtual void go(void);
@@ -120,6 +120,7 @@ protected:
 
     //OIS Input devices
     OIS::InputManager* mInputManager;
+    bool m_enableOIS ;
 #if (OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS) || (OGRE_PLATFORM == OGRE_PLATFORM_ANDROID)
     OIS::MultiTouch* mMouse;
     Ogre::StaticPluginLoader m_StaticPluginLoader ;
