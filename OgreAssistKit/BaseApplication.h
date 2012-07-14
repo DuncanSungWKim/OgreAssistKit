@@ -17,7 +17,7 @@ This source file is part of the
 #ifndef __BaseApplication_h_
 #define __BaseApplication_h_
 
-#if (OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS) || (OGRE_PLATFORM == OGRE_PLATFORM_ANDROID)
+#ifdef TARGET_OS_IPHONE
 #define OGRE_STATIC_GLES 1
 #endif
 

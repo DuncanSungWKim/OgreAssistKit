@@ -6,3 +6,32 @@
     #import <Foundation/Foundation.h>
     #import <UIKit/UIKit.h>
 #endif
+
+
+#ifdef __cplusplus
+
+#include <OgreCamera.h>
+#include <OgreEntity.h>
+#include <OgreLogManager.h>
+#include <OgreRoot.h>
+#include <OgreViewport.h>
+#include <OgreSceneManager.h>
+#include <OgreRenderWindow.h>
+#include <OgreConfigFile.h>
+
+#include <OISEvents.h>
+#include <OISInputManager.h>
+#include <OISKeyboard.h>
+#if (OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS) || (OGRE_PLATFORM == OGRE_PLATFORM_ANDROID)
+#include <OISMultiTouch.h>
+#else
+#include <OISMouse.h>
+#endif
+
+#include <SdkTrays.h>
+#include <SdkCameraMan.h>
+#if (OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS)
+#include <macUtils.h>
+#endif
+
+#endif // __cplusplus
