@@ -63,8 +63,8 @@ public:
     virtual void go(void);
     virtual bool setup();
     virtual void destroyScene(void);
-    Ogre::Root* get_Root() const { return mRoot ; }
-    Ogre::RenderWindow* get_RenderWindow() const { return mWindow ; }
+    Ogre::Root* get_pRoot() const { return mRoot ; }
+    Ogre::RenderWindow* get_pRenderWindow() const { return mWindow ; }
     
 protected:
     virtual bool configure(void);
