@@ -57,7 +57,7 @@ class BaseApplication : public Ogre::FrameListener, public Ogre::WindowEventList
     OgreBites::SdkTrayListener
 {
 public:
-    BaseApplication( bool a_enableOIS = true ) ;
+    BaseApplication( bool enableOIS = true ) ;
     virtual ~BaseApplication(void);
 
     virtual void go(void);
