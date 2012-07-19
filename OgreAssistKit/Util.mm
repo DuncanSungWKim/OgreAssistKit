@@ -25,5 +25,23 @@ void GetNativeWidthHeight( int a_iHandle, unsigned int& oa_uWidth, unsigned int&
 }
 
 
+
+
+void PanCamera( ::Ogre::Camera* a_pCam, const ::Ogre::Vector3& a_subjCenter,
+                const ::Ogre::Vector2& a_curTouch, const ::Ogre::Vector2& a_oldTouch )
+{
+    ::Ogre::Plane planeThruSubj( a_pCam->getDirection(), a_subjCenter ) ;
+    
+    ::Ogre::Ray ray ;
+    a_pCam->getCameraToViewportRay( a_curTouch.x, a_curTouch.y, &ray ) ;
+    ::Ogre::Vector3 curPoint = ray.getPoint( ray.intersects( planeThruSubj ).second ) ;
+    
+    a_pCam->getCameraToViewportRay( a_oldTouch.x, a_oldTouch.y, &ray ) ;
+    ::Ogre::Vector3 oldPoint = ray.getPoint( ray.intersects( planeThruSubj ).second ) ;
+    
+    ::Ogre::Vector3 move = oldPoint - curPoint ;
+    a_pCam->moveRelative( move ) ;
+}
+
     
 } // namespace OgreAssistKit
