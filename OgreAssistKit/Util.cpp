@@ -8,20 +8,27 @@
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  
  */
-#import <UIKit/UIKit.h>
+#include "Util.h"
 
 namespace OgreAssistKit
 {
 
 
 
-void GetNativeWidthHeight( int a_iHandle, unsigned int& oa_uWidth, unsigned int& oa_uHeight )
+void PanCamera( ::Ogre::Camera* a_pCam, const ::Ogre::Vector3& a_subjCenter,
+                const ::Ogre::Vector2& a_curTouch, const ::Ogre::Vector2& a_oldTouch )
 {
-    UIView* oVw = reinterpret_cast<UIView*>(a_iHandle) ;
+    ::Ogre::Plane planeThruSubj( a_pCam->getDirection(), a_subjCenter ) ;
     
-    const CGRect& rc = oVw.frame ;
-    oa_uWidth = rc.size.width ;
-    oa_uHeight = rc.size.height ;
+    ::Ogre::Ray ray ;
+    a_pCam->getCameraToViewportRay( a_curTouch.x, a_curTouch.y, &ray ) ;
+    ::Ogre::Vector3 curPoint = ray.getPoint( ray.intersects( planeThruSubj ).second ) ;
+    
+    a_pCam->getCameraToViewportRay( a_oldTouch.x, a_oldTouch.y, &ray ) ;
+    ::Ogre::Vector3 oldPoint = ray.getPoint( ray.intersects( planeThruSubj ).second ) ;
+    
+    ::Ogre::Vector3 move = oldPoint - curPoint ;
+    a_pCam->moveRelative( move ) ;
 }
 
 
