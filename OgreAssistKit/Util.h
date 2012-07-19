@@ -16,10 +16,10 @@ namespace OgreAssistKit
 
 
 
-void GetNativeWidthHeight( int a_iHandle, unsigned int& oa_uWidth, unsigned int& oa_uHeight ) ;
+void GetNativeWidthHeight( int iHandle, unsigned int& uWidth, unsigned int& uHeight ) ;
 
-void PanCamera( ::Ogre::Camera* a_pCam, const ::Ogre::Vector3& a_subjCenter,
-                const ::Ogre::Vector2& a_curTouch, const ::Ogre::Vector2& a_oldTouch ) ;
+void PanCamera( ::Ogre::Camera* pCam, const ::Ogre::Vector3& subjCenter,
+                const ::Ogre::Vector2& curTouch, const ::Ogre::Vector2& oldTouch ) ;
     
 
 inline 
