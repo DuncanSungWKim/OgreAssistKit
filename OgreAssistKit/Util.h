@@ -11,6 +11,12 @@
 #pragma once
 #ifndef __OgreAssistKit_Util_h__
 #define __OgreAssistKit_Util_h__
+
+// Common Headers
+#include <OgreRoot.h>
+#include <OgreStringConverter.h>
+//*/
+
 namespace OgreAssistKit
 {
 
