@@ -27,11 +27,28 @@ void GetNativeWidthHeight( int iHandle, unsigned int& uWidth, unsigned int& uHei
 void PanCamera( ::Ogre::Camera* pCam, const ::Ogre::Vector3& subjCenter,
                 const ::Ogre::Vector2& curTouch, const ::Ogre::Vector2& oldTouch ) ;
 
-void DollyCamera( ::Ogre::Camera* pCam, const::Ogre::Vector2& aim,
-                  ::Ogre::Vector2 curTouch1, ::Ogre::Vector2 curTouch2,
-                  ::Ogre::Vector2 oldTouch1, ::Ogre::Vector2 oldTouch2,
-                  float a_fDistRate = 500.0f ) ;
+
     
+inline void DollyCamera( ::Ogre::Camera* a_pCam, const::Ogre::Vector2& a_aim,
+                         float a_fDistance )
+{
+    ::Ogre::Ray ray ;
+    a_pCam->getCameraToViewportRay( a_aim.x, a_aim.y, &ray ) ;
+    a_pCam->moveRelative( ray.getDirection() * a_fDistance ) ;
+}
+
+
+
+inline float DiffDistance( const ::Ogre::Vector2 a_curTouch1, const ::Ogre::Vector2 a_curTouch2,
+                           const ::Ogre::Vector2 a_oldTouch1, const ::Ogre::Vector2 a_oldTouch2 )
+{
+    float fCurDist = a_curTouch1.distance( a_curTouch2 ) ;
+    float fOldDist = a_oldTouch1.distance( a_oldTouch2 ) ;
+    float fDistDiff = fCurDist - fOldDist ;
+    return fDistDiff ;
+}
+
+
 
 inline 
 ::Ogre::RenderWindow* 

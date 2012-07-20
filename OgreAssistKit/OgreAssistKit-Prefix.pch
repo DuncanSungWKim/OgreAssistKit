@@ -1,7 +1,7 @@
 //
 // Prefix header for all source files of the 'OgreAssistKit' target in the 'OgreAssistKit' project
 //
-
+//*
 #ifdef __OBJC__
     #import <Foundation/Foundation.h>
     #import <UIKit/UIKit.h>
@@ -35,3 +35,4 @@
 #endif
 
 #endif // __cplusplus
+//*/
