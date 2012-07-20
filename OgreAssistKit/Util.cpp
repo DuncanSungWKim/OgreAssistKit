@@ -38,4 +38,21 @@ void PanCamera( ::Ogre::Camera* a_pCam, const ::Ogre::Vector3& a_subjCenter,
 
 
 
+void DollyCamera( ::Ogre::Camera* a_pCam, const::Ogre::Vector2& a_aim,
+                  ::Ogre::Vector2 a_curTouch1, ::Ogre::Vector2 a_curTouch2,
+                  ::Ogre::Vector2 a_oldTouch1, ::Ogre::Vector2 a_oldTouch2,
+                  float a_fDistRate )
+{
+    ::Ogre::Ray ray ;
+    a_pCam->getCameraToViewportRay( a_aim.x, a_aim.y, &ray ) ;
+    
+    float fCurDistBtwFing = a_curTouch1.distance( a_curTouch2 ) ;
+    float fOldDistBtwFing = a_oldTouch1.distance( a_oldTouch2 ) ;
+    float fDistDiff = fCurDistBtwFing - fOldDistBtwFing ;
+    
+    a_pCam->moveRelative( ray.getDirection() * fDistDiff * a_fDistRate ) ;
+}
+
+
+
 } // namespace OgreAssistKit
