@@ -32,8 +32,8 @@ void PanCamera( ::Ogre::Camera* a_pCam, const ::Ogre::Vector3& a_subjCenter,
     a_pCam->getCameraToViewportRay( a_oldTouch.x, a_oldTouch.y, &ray ) ;
     ::Ogre::Vector3 oldPoint = ray.getPoint( ray.intersects( planeThruSubj ).second ) ;
     
-    ::Ogre::Vector3 move = oldPoint - curPoint ;
-    a_pCam->moveRelative( move ) ;
+    const ::Ogre::Vector3 move = oldPoint - curPoint ;
+    a_pCam->setPosition( a_pCam->getPosition() + move ) ;
 }
 
 

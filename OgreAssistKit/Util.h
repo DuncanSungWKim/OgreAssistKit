@@ -37,7 +37,7 @@ inline void DollyCamera( ::Ogre::Camera* a_pCam, const::Ogre::Vector2& a_aim,
 {
     ::Ogre::Ray ray ;
     a_pCam->getCameraToViewportRay( a_aim.x, a_aim.y, &ray ) ;
-    a_pCam->moveRelative( ray.getDirection() * a_fDistance ) ;
+    a_pCam->setPosition( a_pCam->getPosition() + ray.getDirection()*a_fDistance ) ;
 }
 
 
