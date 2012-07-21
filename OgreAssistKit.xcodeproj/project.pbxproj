@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		0C0FBCB315B879ED008CD9F8 /* Util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0C0FBCB215B879ED008CD9F8 /* Util.cpp */; };
+		0C13CC2815BA3BAA006401E3 /* _UIWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 0C13CC2415BA3BAA006401E3 /* _UIWindow.h */; };
+		0C13CC2915BA3BAA006401E3 /* _UIWindow.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0C13CC2515BA3BAA006401E3 /* _UIWindow.mm */; };
+		0C13CC2A15BA3BAA006401E3 /* TouchInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0C13CC2615BA3BAA006401E3 /* TouchInput.cpp */; };
+		0C13CC2B15BA3BAA006401E3 /* TouchInput.h in Headers */ = {isa = PBXBuildFile; fileRef = 0C13CC2715BA3BAA006401E3 /* TouchInput.h */; };
 		0C44A08215B0115C00445E47 /* Util.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0C44A08115B0115C00445E47 /* Util.mm */; };
 		0C96C0A215ADC09100B5459E /* BaseApplication.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0C96C0A015ADC09100B5459E /* BaseApplication.cpp */; };
 		0C96C0A315ADC09100B5459E /* BaseApplication.h in Headers */ = {isa = PBXBuildFile; fileRef = 0C96C0A115ADC09100B5459E /* BaseApplication.h */; };
@@ -16,6 +20,10 @@
 
 /* Begin PBXFileReference section */
 		0C0FBCB215B879ED008CD9F8 /* Util.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Util.cpp; sourceTree = "<group>"; };
+		0C13CC2415BA3BAA006401E3 /* _UIWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _UIWindow.h; sourceTree = "<group>"; };
+		0C13CC2515BA3BAA006401E3 /* _UIWindow.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = _UIWindow.mm; sourceTree = "<group>"; };
+		0C13CC2615BA3BAA006401E3 /* TouchInput.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TouchInput.cpp; sourceTree = "<group>"; };
+		0C13CC2715BA3BAA006401E3 /* TouchInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouchInput.h; sourceTree = "<group>"; };
 		0C31668415AFE5D000876B13 /* Util.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Util.h; sourceTree = "<group>"; };
 		0C44A08115B0115C00445E47 /* Util.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Util.mm; sourceTree = "<group>"; };
 		0C96C0A015ADC09100B5459E /* BaseApplication.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BaseApplication.cpp; sourceTree = "<group>"; };
@@ -67,6 +75,10 @@
 			children = (
 				0C96C0A015ADC09100B5459E /* BaseApplication.cpp */,
 				0C96C0A115ADC09100B5459E /* BaseApplication.h */,
+				0C13CC2415BA3BAA006401E3 /* _UIWindow.h */,
+				0C13CC2515BA3BAA006401E3 /* _UIWindow.mm */,
+				0C13CC2615BA3BAA006401E3 /* TouchInput.cpp */,
+				0C13CC2715BA3BAA006401E3 /* TouchInput.h */,
 				0C31668415AFE5D000876B13 /* Util.h */,
 				0C44A08115B0115C00445E47 /* Util.mm */,
 				0C0FBCB215B879ED008CD9F8 /* Util.cpp */,
@@ -91,6 +103,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				0C96C0A315ADC09100B5459E /* BaseApplication.h in Headers */,
+				0C13CC2815BA3BAA006401E3 /* _UIWindow.h in Headers */,
+				0C13CC2B15BA3BAA006401E3 /* TouchInput.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -147,6 +161,8 @@
 				0C96C0A215ADC09100B5459E /* BaseApplication.cpp in Sources */,
 				0C44A08215B0115C00445E47 /* Util.mm in Sources */,
 				0C0FBCB315B879ED008CD9F8 /* Util.cpp in Sources */,
+				0C13CC2915BA3BAA006401E3 /* _UIWindow.mm in Sources */,
+				0C13CC2A15BA3BAA006401E3 /* TouchInput.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
