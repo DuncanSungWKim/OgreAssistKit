@@ -22,6 +22,6 @@ Ogre::OrientationMode ToOgre( UIDeviceOrientation a_ort ) ;
     OgreAssistKit::TouchInput* m_pTouchInput ;
 }
 
-void CleanUpOgre( OgreAssistKit_UIWindow* oSelf ) ;
+void OgreAssistKit_UIWindow_CleanUp( OgreAssistKit_UIWindow* oSelf ) ;
 
 @end

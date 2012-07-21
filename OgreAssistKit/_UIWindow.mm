@@ -38,7 +38,7 @@ using namespace OgreAssistKit ;
 
 
 
-void CleanUpOgre( OgreAssistKit_UIWindow* a_oSelf )
+void OgreAssistKit_UIWindow_CleanUp( OgreAssistKit_UIWindow* a_oSelf )
 {
     if( NULL == a_oSelf->m_pTouchInput )
         return ;
@@ -51,7 +51,7 @@ void CleanUpOgre( OgreAssistKit_UIWindow* a_oSelf )
 
 -(void) dealloc
 {
-    CleanUpOgre( self ) ;
+    OgreAssistKit_UIWindow_CleanUp( self ) ;
     [ super dealloc ] ;
 }
 
