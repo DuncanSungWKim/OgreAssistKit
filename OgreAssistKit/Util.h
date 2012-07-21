@@ -27,8 +27,11 @@ void GetNativeWidthHeight( int iHandle, unsigned int& uWidth, unsigned int& uHei
 void PanCamera( ::Ogre::Camera* pCam, const ::Ogre::Vector3& subjCenter,
                 const ::Ogre::Vector2& curTouch, const ::Ogre::Vector2& oldTouch ) ;
 
+void OrbitCamera( ::Ogre::Camera* pCam, const::Ogre::Sphere& subjSphr,
+                 const Ogre::Vector2& curTouch, const Ogre::Vector2& oldTouch ) ;
 
-    
+
+
 inline void DollyCamera( ::Ogre::Camera* a_pCam, const::Ogre::Vector2& a_aim,
                          float a_fDistance )
 {
