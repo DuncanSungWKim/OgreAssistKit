@@ -28,7 +28,7 @@ void PanCamera( ::Ogre::Camera* pCam, const ::Ogre::Vector3& subjCenter,
                 const ::Ogre::Vector2& curTouch, const ::Ogre::Vector2& oldTouch ) ;
 
 void OrbitCamera( ::Ogre::Camera* pCam, const::Ogre::Sphere& subjSphr,
-                 const Ogre::Vector2& curTouch, const Ogre::Vector2& oldTouch ) ;
+                  const Ogre::Vector2& curTouch, const Ogre::Vector2& oldTouch ) ;
 
 
 
@@ -42,8 +42,9 @@ inline void DollyCamera( ::Ogre::Camera* a_pCam, const::Ogre::Vector2& a_aim,
 
 
 
-inline float DiffDistance( const ::Ogre::Vector2& a_curTouch1, const ::Ogre::Vector2& a_curTouch2,
-                           const ::Ogre::Vector2& a_oldTouch1, const ::Ogre::Vector2& a_oldTouch2 )
+inline
+float DiffDistances( const ::Ogre::Vector2& a_curTouch1, const ::Ogre::Vector2& a_curTouch2,
+                     const ::Ogre::Vector2& a_oldTouch1, const ::Ogre::Vector2& a_oldTouch2 )
 {
     float fCurDist = a_curTouch1.distance( a_curTouch2 ) ;
     float fOldDist = a_oldTouch1.distance( a_oldTouch2 ) ;
