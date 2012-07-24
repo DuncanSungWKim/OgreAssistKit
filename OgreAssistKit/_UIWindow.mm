@@ -57,18 +57,27 @@ void OgreAssistKit_UIWindow_CleanUp( OgreAssistKit_UIWindow* a_oSelf )
 
 
 
--(void) touchesBegan:(NSSet*)a_oTouches withEvent:(UIEvent*)a_oEv
+static NSArray* StashTouches( OgreAssistKit_UIWindow* a_oSelf, UIEvent* a_oEv )
 {
-    m_pTouchInput->OnBeginning() ;
-    
     NSArray* oTouches = [ [a_oEv allTouches] allObjects ] ;
     
     for( UITouch* oTouch in oTouches )
     {
-        CGPoint pt = [ oTouch locationInView:self ] ;
+        CGPoint pt = [ oTouch locationInView:a_oSelf ] ;
         //NSLog( @"%i, %i\n", (int)pt.x, (int)pt.y ) ;
-        m_pTouchInput->AddTouch( pt.x, pt.y ) ;
+        a_oSelf->m_pTouchInput->AddTouch( pt.x, pt.y ) ;
     }
+    
+    return oTouches ;
+}
+
+
+
+-(void) touchesBegan:(NSSet*)a_oTouches withEvent:(UIEvent*)a_oEv
+{
+    m_pTouchInput->OnBeginning() ;
+    
+    StashTouches( self, a_oEv ) ;
     
     m_pTouchInput->OnBegun() ;
 }
@@ -79,14 +88,7 @@ void OgreAssistKit_UIWindow_CleanUp( OgreAssistKit_UIWindow* a_oSelf )
 {
     m_pTouchInput->OnMoving() ;
     
-    NSArray* oTouches = [ [a_oEv allTouches] allObjects ] ;
-    
-    for( UITouch* oTouch in oTouches )
-    {
-        CGPoint pt = [ oTouch locationInView:self ] ;
-        //NSLog( @"%i, %i\n", (int)pt.x, (int)pt.y ) ;
-        m_pTouchInput->AddTouch( pt.x, pt.y ) ;
-    }
+    StashTouches( self, a_oEv ) ;
     
     m_pTouchInput->OnMoved() ;
 }
@@ -97,16 +99,9 @@ void OgreAssistKit_UIWindow_CleanUp( OgreAssistKit_UIWindow* a_oSelf )
 {
     m_pTouchInput->OnEnding() ;
 
-    NSArray* oTouches = [ [a_oEv allTouches] allObjects ] ;
+    NSArray* oTouches = StashTouches( self, a_oEv ) ;
     
-    for( UITouch* oTouch in oTouches )
-    {
-        CGPoint pt = [ oTouch locationInView:self ] ;
-        //NSLog( @"%i, %i\n", (int)pt.x, (int)pt.y ) ;
-        m_pTouchInput->AddTouch( pt.x, pt.y ) ;
-    }
-    
-    UITouch* oFirstTouch = [oTouches objectAtIndex:0] ;
+    UITouch* oFirstTouch = [ oTouches objectAtIndex:0 ] ;
     m_pTouchInput->OnEnded( oFirstTouch.tapCount ) ;    
 }
 
