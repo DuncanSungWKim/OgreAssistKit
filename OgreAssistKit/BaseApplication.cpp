@@ -342,7 +342,11 @@ bool BaseApplication::keyPressed( const OIS::KeyEvent &arg )
         Ogre::TextureFilterOptions tfo;
         unsigned int aniso;
 
+#if OGRE_UNICODE_SUPPORT
         switch (mDetailsPanel->getParamValue(9).asUTF8()[0])
+#else
+        switch (mDetailsPanel->getParamValue(9)[0])
+#endif
         {
         case 'B':
             newVal = "Trilinear";

@@ -18,7 +18,7 @@ This source file is part of the
 #define __BaseApplication_h_
 
 #ifdef TARGET_OS_IPHONE
-#define OGRE_STATIC_GLES 1
+#define OGRE_STATIC_GLES2 1
 #endif
 
 #include <OgreCamera.h>
