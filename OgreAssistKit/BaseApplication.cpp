@@ -188,7 +188,7 @@ void BaseApplication::setupResources(void)
     // Go through all sections & settings in the file
     Ogre::ConfigFile::SectionIterator seci = cf.getSectionIterator();
 
-#if (OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS) || (OGRE_PLATFORM == OGRE_PLATFORM_ANDROID)
+#if (OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS)
     Ogre::String bunPath = Ogre::macBundlePath() ;
     bunPath.push_back( '/' ) ;
 #endif
@@ -201,7 +201,7 @@ void BaseApplication::setupResources(void)
         for (i = settings->begin(); i != settings->end(); ++i)
         {
             typeName = i->first;
-#if (OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS) || (OGRE_PLATFORM == OGRE_PLATFORM_ANDROID)
+#if (OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS)
             archName = bunPath + i->second;
 #else
             archName = i->second;
@@ -235,7 +235,7 @@ void BaseApplication::go(void)
 //-------------------------------------------------------------------------------------
 bool BaseApplication::setup(void)
 {
-#if (OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS) || (OGRE_PLATFORM == OGRE_PLATFORM_ANDROID)
+#if (OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS)
     mResourcesCfg = Ogre::macBundlePath() + "/resources.cfg";
     mPluginsCfg = "plugins.cfg";
 #else
