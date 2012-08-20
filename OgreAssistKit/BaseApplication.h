@@ -50,6 +50,9 @@ This source file is part of the
 #if (OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS)
 #include <macUtils.h>
 #endif
+#if OGRE_PLATFORM == OGRE_PLATFORM_ANDROID
+#include "AndroidUtil.h"
+#endif
 
 class BaseApplication : public Ogre::FrameListener, public Ogre::WindowEventListener, public OIS::KeyListener,
 #if (OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS) || (OGRE_PLATFORM == OGRE_PLATFORM_ANDROID)
@@ -65,6 +68,9 @@ public:
 
     virtual void go(void);
     virtual bool setup();
+#if OGRE_PLATFORM == OGRE_PLATFORM_ANDROID
+	virtual bool setup( struct android_app* pAndroidApp ) ;
+#endif
     virtual void destroyScene(void);
     Ogre::Root* get_pRoot() const { return mRoot ; }
     Ogre::RenderWindow* get_pRenderWindow() const { return mWindow ; }
@@ -79,6 +85,7 @@ protected:
     virtual void setupResources(void);
     virtual void createResourceListener(void);
     virtual void loadResources(void);
+	void loadPlugins( const Ogre::DataStreamPtr& stream ) ;
 
     // Ogre::FrameListener
     virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
@@ -131,6 +138,11 @@ protected:
     OIS::Mouse*    mMouse;
 #endif
     OIS::Keyboard* mKeyboard;
+
+#if OGRE_PLATFORM == OGRE_PLATFORM_ANDROID
+public:
+	OgreAssistKit::AndroidAssetManager m_androidAssetMgr ;
+#endif
 };
 
 #endif // #ifndef __BaseApplication_h_

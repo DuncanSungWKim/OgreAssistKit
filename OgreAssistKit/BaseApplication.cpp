@@ -234,22 +234,33 @@ void BaseApplication::go(void)
 }
 //-------------------------------------------------------------------------------------
 bool BaseApplication::setup(void)
+#if OGRE_PLATFORM == OGRE_PLATFORM_ANDROID
+{ return false ; }
+bool BaseApplication::setup( struct android_app* a_pAndroidApp )
+#endif
 {
 #if (OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS)
     mResourcesCfg = Ogre::macBundlePath() + "/resources.cfg";
     mPluginsCfg = "plugins.cfg";
+#elif (OGRE_PLATFORM == OGRE_PLATFORM_ANDROID)
+	mResourcesCfg = "resources.cfg";
 #else
-#ifdef _DEBUG
+#	ifdef _DEBUG
     mResourcesCfg = "resources_d.cfg";
     mPluginsCfg = "plugins_d.cfg";
-#else
+#	else
     mResourcesCfg = "resources.cfg";
     mPluginsCfg = "plugins.cfg";
+#	endif
 #endif
-#endif    
+
     mRoot = new Ogre::Root(mPluginsCfg);
 #if (OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS) || (OGRE_PLATFORM == OGRE_PLATFORM_ANDROID)
     m_StaticPluginLoader.load() ;
+#endif
+#if OGRE_PLATFORM == OGRE_PLATFORM_ANDROID
+	m_androidAssetMgr.Init( a_pAndroidApp->activity->assetManager ) ;
+	loadPlugins( m_androidAssetMgr.OpenFileAsStream("plugins.cfg") ) ;
 #endif
 
     setupResources();
@@ -498,5 +509,41 @@ void BaseApplication::windowClosed(Ogre::RenderWindow* rw)
             OIS::InputManager::destroyInputSystem(mInputManager);
             mInputManager = 0;
         }
+    }
+}
+
+
+
+// Ogre::Root::loadPlugins() from OgreRoot.cpp is adapted for For Android's apk,
+void BaseApplication::loadPlugins( const Ogre::DataStreamPtr& a_stream )
+{
+    Ogre::StringVector pluginList;
+    Ogre::String pluginDir;
+    Ogre::ConfigFile cfg;
+
+	try {
+        cfg.load( a_stream );
+	}
+	catch (Ogre::Exception)
+	{
+		Ogre::LogManager::getSingleton().logMessage( a_stream->getName() + " not found, automatic plugin loading disabled.");
+		return;
+	}
+
+    pluginDir = cfg.getSetting("PluginFolder"); // Ignored on Mac OS X, uses Resources/ directory
+    pluginList = cfg.getMultiSetting("Plugin");
+
+    if (!pluginDir.empty() && *pluginDir.rbegin() != '/' && *pluginDir.rbegin() != '\\')
+    {
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+        pluginDir += "\\";
+#elif OGRE_PLATFORM == OGRE_PLATFORM_LINUX
+        pluginDir += "/";
+#endif
+    }
+
+    for( Ogre::StringVector::iterator it = pluginList.begin(); it != pluginList.end(); ++it )
+    {
+		mRoot->loadPlugin(pluginDir + (*it));
     }
 }
