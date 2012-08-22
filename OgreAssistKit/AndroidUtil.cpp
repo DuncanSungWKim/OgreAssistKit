@@ -18,20 +18,20 @@
 namespace OgreAssistKit
 {
 
-bool AndroidAssetManager::Init( AAssetManager* a_pAssetMgr )
+bool AndroidApp::Init( struct android_app* a_pApp )
 {
-	m_pAssetMgr = a_pAssetMgr ;
+	m_pAssetMgr = a_pApp->activity->assetManager ;
 
 	Ogre::ArchiveManager& arMgr = Ogre::ArchiveManager::getSingleton() ;
-	arMgr.addArchiveFactory( new Ogre::APKFileSystemArchiveFactory( a_pAssetMgr ) ) ;
-	arMgr.addArchiveFactory( new Ogre::APKZipArchiveFactory( a_pAssetMgr ) ) ;
+	arMgr.addArchiveFactory( new Ogre::APKFileSystemArchiveFactory( m_pAssetMgr ) ) ;
+	arMgr.addArchiveFactory( new Ogre::APKZipArchiveFactory( m_pAssetMgr ) ) ;
 
 	return true ;
 }
 
 
 
-Ogre::DataStreamPtr AndroidAssetManager::OpenFileAsStream( const Ogre::String& a_fileName )
+Ogre::DataStreamPtr AndroidApp::OpenAssetFile( const Ogre::String& a_fileName )
 {
 	Ogre::DataStreamPtr streamPtr ;
 	AAsset* pAsset = ::AAssetManager_open( m_pAssetMgr, a_fileName.c_str(), AASSET_MODE_BUFFER ) ;

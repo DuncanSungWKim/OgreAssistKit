@@ -22,13 +22,13 @@ namespace OgreAssistKit
 {
 
 
-class AndroidAssetManager
+class AndroidApp
 {
 // Methods
 public:
-	AndroidAssetManager() ;
-	bool Init( AAssetManager* a_pAssetMgr ) ;
-	Ogre::DataStreamPtr OpenFileAsStream( const Ogre::String& fileName ) ;
+	AndroidApp() ;
+	bool Init( struct ::android_app* a_pApp ) ;
+	Ogre::DataStreamPtr OpenAssetFile( const Ogre::String& fileName ) ;
 
 	
 	
@@ -40,7 +40,7 @@ private:
 
 // Inline Routines
 
-inline AndroidAssetManager::AndroidAssetManager() :
+inline AndroidApp::AndroidApp() :
 	m_pAssetMgr(NULL)
 {
 }

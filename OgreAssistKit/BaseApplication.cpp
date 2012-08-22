@@ -184,7 +184,7 @@ void BaseApplication::setupResources(void)
     // Load resource paths from config file
     Ogre::ConfigFile cf;
 #if OGRE_PLATFORM == OGRE_PLATFORM_ANDROID
-    cf.load( m_androidAssetMgr.OpenFileAsStream(mResourcesCfg) ) ;
+    cf.load( m_androidApp.OpenAssetFile(mResourcesCfg) ) ;
 #else
     cf.load(mResourcesCfg);
 #endif
@@ -263,8 +263,8 @@ bool BaseApplication::setup( struct android_app* a_pAndroidApp )
     m_StaticPluginLoader.load() ;
 #endif
 #if OGRE_PLATFORM == OGRE_PLATFORM_ANDROID
-	m_androidAssetMgr.Init( a_pAndroidApp->activity->assetManager ) ;
-	//loadPlugins( m_androidAssetMgr.OpenFileAsStream("plugins.cfg") ) ;
+	m_androidApp.Init( a_pAndroidApp ) ;
+	//loadPlugins( m_androidApp.OpenAssetFile("plugins.cfg") ) ;
 #endif
 
     setupResources();

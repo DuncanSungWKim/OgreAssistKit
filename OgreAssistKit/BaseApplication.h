@@ -140,8 +140,7 @@ protected:
     OIS::Keyboard* mKeyboard;
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_ANDROID
-public:
-	OgreAssistKit::AndroidAssetManager m_androidAssetMgr ;
+	OgreAssistKit::AndroidApp m_androidApp ;
 #endif
 };
 
